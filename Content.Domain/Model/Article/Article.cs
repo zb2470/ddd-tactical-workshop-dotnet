@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Content.Domain.Model.Article
 {
@@ -15,9 +16,9 @@ namespace Content.Domain.Model.Article
 
         public ArticleId Id { get; }
 
-        public string Title { get; }
+        public string Title { get; private set; }
 
-        public string Content { get; }
+        public string Content { get; private set; }
 
         public List<Product> Products { get; }
 
@@ -26,6 +27,27 @@ namespace Content.Domain.Model.Article
         public void Publish()
         {
             Status = ArticleStatus.Published;
+        }
+
+        public void Update(string title, string content, List<Product> products)
+        {
+            Title = title;
+            Content = content;
+            AddProducts(products);
+            if (this.Status == ArticleStatus.Published)
+                this.Status = ArticleStatus.Draft;
+        }
+
+        private void AddProducts(List<Product> products)
+        {
+            products.ForEach(c =>
+            {
+                if (this.Products.Count >= 3)
+                {
+                    throw new Exception("关联的产品个数不能超过3个");
+                }
+                this.Products.Add(c);
+            });
         }
     }
 

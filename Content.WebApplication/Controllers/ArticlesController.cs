@@ -33,6 +33,7 @@ namespace Content.WebApplication.Controllers
         // PUT api/<controller>/5
         public void Put(Guid id, PutRequest request)
         {
+            ApplicationService.UpdateArticle(new ArticleId(id), request.Title, request.Content, request.Products);
         }
 
         // DELETE api/<controller>/5

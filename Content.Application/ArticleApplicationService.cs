@@ -34,5 +34,12 @@ namespace Content.Application
         {
             return _articleRepository.FindById(articleId);
         }
+
+        public void UpdateArticle(ArticleId articleId, string title, string content, List<Product> products)
+        {
+            Article article = _articleRepository.FindById(articleId);
+            article.Update(title, content, products);
+            _articleRepository.Save(article);
+        }
     }
 }
